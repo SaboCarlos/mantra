@@ -1,0 +1,139 @@
+<?php
+
+namespace App\Http\Controllers\Frontend;
+
+use App\Http\Controllers\Controller;
+use App\Models\Categoria;
+use Illuminate\Http\Request;
+use App\Http\Requests\ImobiliarioFromRequest;
+use App\Models\imobiliario;
+use App\Models\imobiliarioImagem;
+use Illuminate\Support\Facades\File;
+
+class ImobiliarioController extends Controller
+{
+    public function index()
+    {
+        $imobiliario = imobiliario::all();
+        return view('frontend.imobiliario.index');
+    }
+    
+    public function criar(){
+        $categoria = Categoria::all(); 
+        return view('frontend.imobiliario.criar',compact('categoria'));
+    }
+
+    public function guardar(ImobiliarioFromRequest $request){
+        $validatedData = $request->validated();
+    
+        $categoria = Categoria::findOrFail($validatedData['categoria_id']);
+        $imobiliario = $categoria->imobiliario()->create([
+            'categoria_id' => $validatedData['categoria_id'],
+            'nome' => $validatedData['nome'],
+            'pequena_discricao' => $validatedData['pequena_discricao'],
+            'discricao' => $validatedData['discricao'],
+            'localizacao' => $validatedData['localizacao'],
+            'estado' => $request->estado ==true ? '1':'0',
+            'casabanho' => $validatedData['casabanho'],
+            'Garagem' => $validatedData['Garagem'],
+            'preco' => $validatedData['preco'],
+            
+        ]);
+    
+        if($request->hasfile('imagem')){
+            $uploadPath ='uploads/imobiliario/';
+    
+            $i = 1;
+            foreach($request->file('imagem') as $imageFile){
+                $extention = $imageFile->getClientOriginalExtension();
+                $filename = time().$i++.'.'.$extention;
+                $imageFile->move($uploadPath,$filename);
+                $finalImagePathName = $uploadPath.$filename;
+    
+                $imobiliario->produtoImages()->create([
+                    'produto_id'=>$imobiliario->id,
+                    'imagem'=>$finalImagePathName,
+                ]);
+    
+            }
+            
+        }
+        return redirect('/frontend/imobiliario')->with('message','Produto adicionado com sucesso');
+        
+    }
+
+    /*public function edit(int $imobiliario_id){
+        $categoria = Categoria::all(); 
+        $imobiliario = imobiliario::findOrFail($imobiliario_id);
+        return view('frontend.imobiliario.edit',compact('categoria','produto'));
+    }
+
+    public function update(ImobiliarioFromRequest $request, int $imobiliario_id){
+       
+        $validatedData = $request->validated();
+        $imobiliario = Categoria::findOrFail($validatedData['categoria_id'])
+                            ->produto()->where('id',$imobiliario_id)->first();
+        if($imobiliario){
+            $imobiliario->update([
+                'categoria_id' => $validatedData['categoria_id'],
+                'nome' => $validatedData['nome'],
+                'pequena_discricao' => $validatedData['pequena_discricao'],
+                'discricao' => $validatedData['discricao'],
+                'localizacao' => $validatedData['localizacao'],
+                'preco' => $validatedData['preco'],
+                'estado' => $request->estado ==true ? '1':'0',
+                'destaque' => $request->destaque ==true ? '0':'1',
+            ]);
+
+            if($request->hasfile('imagem')){
+                $uploadPath ='uploads/produto/';
+        
+                $i = 1;
+                foreach($request->file('imagem') as $imageFile){
+                    $extention = $imageFile->getClientOriginalExtension();
+                    $filename = time().$i++.'.'.$extention;
+                    $imageFile->move($uploadPath,$filename);
+                    $finalImagePathName = $uploadPath.$filename;
+        
+                    $imobiliario->produtoImages()->create([
+                        'produto_id'=>$imobiliario->id,
+                        'imagem'=>$finalImagePathName,
+                    ]);
+        
+                }
+                
+            }
+            return redirect('/frontend/imobiliario')->with('message','Produto atualizado com sucesso');
+        }
+        else{
+            return redirect('/frontend/imobiliario')-> with('message','Produto nao encontrado');
+        }
+    }
+    
+    public function destroyImagem(int $imobiliario_imagem_id)
+    {
+        $imobiliarioImagem = imobiliarioImagem::findOrFail($imobiliario_imagem_id);
+        if (File::exists($imobiliarioImagem->imagem)) {
+            File::delete($imobiliarioImagem->imagem);
+        }
+        $imobiliarioImagem->delete();
+        return redirect()->back()->with('message','Imagem eliminada');
+    }
+
+    public function destroy(int $imobiliario_id)
+    {
+        $imobiliario = imobiliario::findOrFail($imobiliario_id);
+        if ($imobiliario->produtoImages) {
+            foreach($imobiliario->produtoImages as $imagem){
+                if(File::exists($imagem->imagem)){
+                    File::delete($imagem->imagem);
+                }
+            }
+        }
+        $imobiliario->delete();
+        return redirect()->back()->with('message','Imobiliario eliminado');
+
+    }*/
+
+
+}

@@ -1,0 +1,12 @@
+ $table->unsignedBigInteger('categoria_id');
+
+            $table->string('nome');
+            $table->mediumText('pequena_discricao')->nullable( );
+            $table->longText('discricao');
+            $table->string('localizacao'); 
+            $table->Integer('preco')->nullable( );
+            $table->tinyInteger('estado')->default('0')->comment('0=A venda,1=Vendido');
+            $table->Integer('casabanho')->nullable( );
+            $table->Integer('Garagem')->nullable( );
+
+            $table->foreign('categoria_id')->references('id')->on('categoria')->onDelete('cascade');
