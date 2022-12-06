@@ -1,9 +1,14 @@
-@extends('layouts.app')
+@extends('layouts.log')
 
 @section('content')
 <div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
+    <div class="row justify-content-center" >
+        <div class="col-md-8" style="margin-top: 4rem; 
+        margin-bottom: 5rem; 
+        border-radius: 15px;
+        box-shadow: 0 6px 8px rgba(21, 105, 65, 0.5);
+        border-top: 2px rgba(18,120,71,.3);
+        border-left: 2px rgba(18,120,71,.3);">
             <div class="card">
                 <div class="card-header">{{ __('Confirm Password') }}</div>
 

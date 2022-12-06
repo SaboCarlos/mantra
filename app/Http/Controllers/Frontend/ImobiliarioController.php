@@ -7,22 +7,21 @@ use App\Models\Categoria;
 use Illuminate\Http\Request;
 use App\Http\Requests\ImobiliarioFromRequest;
 use App\Models\imobiliario;
-use App\Models\imobiliarioImagem ;
-use App\Models\produto;
+use App\Models\imobiliarioImagem;
 use Illuminate\Support\Facades\File;
 
 class ImobiliarioController extends Controller
 {
     public function index()
     {
-        $novaImobiliario = produto::latest()->take(16)->get();
+        $novaImobiliario = imobiliario::latest()->take(16)->get();
         return view('frontend.imobiliario.index',compact('novaImobiliario'));
     }
 
     public function create()
     {
         $categoria = Categoria::all();
-        $novaImobiliario = produto::latest()->take(16)->get();
+        $novaImobiliario = imobiliario::latest()->take(16)->get();
         return view('frontend.imobiliario.criar',compact('categoria','novaImobiliario'));
 
     }
@@ -31,13 +30,17 @@ class ImobiliarioController extends Controller
     {
 
         $validatedData = $request->validated();
-
+        $categoria = Categoria::findOrFail($validatedData['categoria_id']);
         $imobiliario = new imobiliario;
+        $imobiliario -> categoria_id = $validatedData['categoria_id'];
         $imobiliario -> nome = $validatedData['nome'];
         $imobiliario -> p_discricao = $validatedData['p_discricao'];
         $imobiliario -> disc = $validatedData['disc'];
         $imobiliario -> local = $validatedData['local'];
         $imobiliario -> montante = $validatedData['montante'];
+        $imobiliario -> quartos = $validatedData['quartos'];
+        $imobiliario -> numero = $validatedData['numero'];
+        $imobiliario -> casaBanho = $validatedData['casaBanho'];
         $imobiliario ->estado = $request->estado ==true ? '1':'0'; 
               
         ;

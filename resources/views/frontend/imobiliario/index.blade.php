@@ -32,7 +32,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                            {{-- @forelse ($produto as $produto )
+                            @forelse ($novaImobiliario as $produto )
                                 <tr>
                                     <td>{{$produto->id}}</td>
                                     <td>
@@ -56,7 +56,7 @@
                                 <tr>
                                     <td colspan="7"> Não à Produtos Disponiveis</td>
                                 </tr>
-                                @endforelse--}}
+                                @endforelse
                                 
                             </tbody>
                         </table>

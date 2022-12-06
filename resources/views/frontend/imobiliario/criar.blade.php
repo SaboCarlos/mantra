@@ -45,7 +45,7 @@
                             <div class="tab-content" id="myTabContent">
                                 <div class="tab-pane fade border p-3 show active" id="home-tab-pane" role="tabpanel" aria-labelledby="home-tab" tabindex="0">
                                     <div class="row">
-                                        {{--<div class="col-md-4">
+                                        <div class="col-md-4">
                                             <div class="mb-3">
                                                 <label>Categoria</label>
                                                 <select name="categoria_id" class="form-control">
@@ -54,7 +54,7 @@
                                                     @endforeach
                                                 </select>
                                             </div>
-                                        </div>--}}
+                                        </div>
                                         <div class="col-md-6">
                                             <div class="mb-3">
                                                 <label>Nome</label>
@@ -85,6 +85,24 @@
                                             <div class="mb-3">
                                                 <label>Estado</label><br>
                                                 <input type="checkbox" name="estado" style="width: 40px; height:40px;">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="mb-3">
+                                                <label>Quartos</label>
+                                                <input type="number" name="quartos" class="form-control">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="mb-3">
+                                                <label>Casa Banho</label>
+                                                <input type="number" name="casaBanho" class="form-control">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="mb-3">
+                                                <label>Contacto</label>
+                                                <input type="number" name="numero" class="form-control">
                                             </div>
                                         </div>
                                         
